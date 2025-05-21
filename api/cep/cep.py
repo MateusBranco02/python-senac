@@ -9,6 +9,7 @@ def consultar_cep():
 
     url = f'https://brasilapi.com.br/api/cep/v2/{cep}'
 
+
     try:
         response = requests.get(url)
         if response.status_code == 200:
