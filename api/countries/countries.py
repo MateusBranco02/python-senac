@@ -1,17 +1,18 @@
 import requests
 
-def consultar_codigo_pais():
-    cod = input('Digite o código do país: ').upper()
-    url = f'https://restcountries.com/v3.1/alpha/{cod}'
+def consultar_pais_sigla():
+    sigla = input('Digite a sigla do país (BR, US): ').upper()
+
+    url = f'https://restcountries.com/v3.1/alpha/{sigla}'
     response = requests.get(url).json()
+
     for pais in response:
         nome_pais = pais['name']['common']
         populacao = pais['population']
-        capital = pais['capital']
-        for i in capital:
-            posi = i
+        capitais = ', '.join(pais['capital'])
         print(f"País: {nome_pais}")
-        print(f"Capital: {posi}")
+        print(f"Capital: {capitais}")
         print(f"População: {populacao}")
 
-consultar_codigo_pais()
+
+consultar_pais_sigla()
