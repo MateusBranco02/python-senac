@@ -34,10 +34,11 @@ def lista_produtos():
         print('\nNenhum produto cadastrado!')
 
     for i, produto in enumerate(estoque_produtos, start=1):
-        print(f"{i} - Nome: {produto['name']} | Quantidade: {produto['amount']} | Preço Unitário: {produto['unit_price']:.2f}")
+        valor_total = produto['amount'] * produto['unit_price']
+        print(f"{i} - Nome: {produto['name']} | Quantidade: {produto['amount']} | Preço Unitário: {produto['unit_price']:.2f} | Total: R${valor_total:.2f}")
 
 
-def atualizar_produto(index):
+def atualizar_produto():
     try:
         index = int(input('Informe o índice do produto que deseja atualizar: ')) - 1
         if index < 0 or index >= len(estoque_produtos):
@@ -62,7 +63,7 @@ def atualizar_produto(index):
 
     try:
         amount = int(amount)
-        unit_price = int(unit_price)
+        unit_price = float(unit_price)
     except ValueError:
         print('Quantidade deve ser um número inteiro e preço unitário um número decimal.')
         return
@@ -78,15 +79,26 @@ def atualizar_produto(index):
     print(f"\nProduto {produto_atualizado['name']} atualizado com sucesso!")
 
 
-def remover_produto(index):
-    estoque_produtos.pop(index)
-    print(f"Produto {estoque_produtos[index]['name']} foi removido com sucesso!")
+def remover_produto():
+    try:
+        index = int(input('Informe o índice do produto que deseja remover: ')) - 1
+        if index < 0 or index >= len(estoque_produtos):
+            print('Índice inválido.')
+            return
+    except ValueError:
+        print('Por favor, informe um número inteiro válido para o índice.')
+        return
+    
+    produto_removido = estoque_produtos.pop(index)
+    print(f"Produto {produto_removido['name']} foi removido com sucesso!")
 
 
 def calcular_valor_total_estoque():
-    for i, quantidade, unit_price in estoque_produtos:
-        valor_total = (quantidade[i] * unit_price[i])
-        print(f'Valor total: {valor_total}')
+    valor_total = 0
+    for produto in estoque_produtos:
+        valor_total += produto['amount'] * produto['unit_price']
+    
+    print(f'Valor total em estoque: R${valor_total:.2f}')
 
 
 def main():
@@ -117,6 +129,7 @@ def main():
                 break
             case _:
                 print('Opção inválida!')
+
 
 main()
 
